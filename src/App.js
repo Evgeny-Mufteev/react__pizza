@@ -1,9 +1,9 @@
-import React from 'react';
-import './scss/app.scss';
-import Header from './components/Header';
-import Categories from './components/Categories';
-import Sort from './components/Sort';
-import PizzaBlock from './components/PizzaBlock';
+import React from "react";
+import "./scss/app.scss";
+import Header from "./components/Header";
+import Categories from "./components/Categories";
+import Sort from "./components/Sort";
+import PizzaBlock from "./components/PizzaBlock";
 
 function App() {
   return (
@@ -17,10 +17,10 @@ function App() {
           </div>
           <h2 class="content__title">Все пиццы</h2>
           <div class="content__items">
-            <PizzaBlock />
-            <PizzaBlock />
-            <PizzaBlock />
-            <PizzaBlock />
+            <PizzaBlock title="Мексиканская" price="500" />
+            <PizzaBlock title="Четыре сыра" price="650" />
+            <PizzaBlock title="Морская" price={970} />
+            <PizzaBlock title="Гавайская" price={700} />
             <PizzaBlock />
             <PizzaBlock />
             <PizzaBlock />
