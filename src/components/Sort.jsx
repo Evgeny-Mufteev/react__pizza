@@ -1,6 +1,6 @@
 import React from "react";
 
-function Sort() {
+const Sort = () => {
   const [open, setOpen] = React.useState(false);
   const [selected, setSelected] = React.useState(0);
   const list = ["популярности", "цене", "алфавиту"];
@@ -44,6 +44,6 @@ function Sort() {
       )}
     </div>
   );
-}
+};
 
 export default Sort;

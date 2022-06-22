@@ -1,6 +1,6 @@
 import React from "react";
 
-function Categories() {
+const Categories = () => {
   const [activeIdex, setActiveIdex] = React.useState(0);
 
   const categories = ["Все", "Мясные", "Вегетарианская", "Гриль", "Острые", "Закрытые"];
@@ -20,6 +20,6 @@ function Categories() {
       </ul>
     </div>
   );
-}
+};
 
 export default Categories;
