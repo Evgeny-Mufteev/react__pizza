@@ -5,15 +5,15 @@ function Categories() {
 
   const categories = ["Все", "Мясные", "Вегетарианская", "Гриль", "Острые", "Закрытые"];
 
-  const onClickCategory = (index) => {
-    setActiveIdex(index);
-  };
+  // const onClickCategory = (index) => {
+  //   setActiveIdex(index);
+  // };
 
   return (
     <div className="categories">
       <ul>
         {categories.map((value, i) => (
-          <li onClick={() => onClickCategory(i)} className={activeIdex === i ? "active" : ""}>
+          <li key={i} onClick={() => setActiveIdex(i)} className={activeIdex === i ? "active" : ""}>
             {value}
           </li>
         ))}
