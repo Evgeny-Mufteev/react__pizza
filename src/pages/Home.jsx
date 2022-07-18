@@ -10,7 +10,6 @@ import Skeleton from "../components/PizzaBlock/Skeleton";
 import Pagination from "../components/Pagination";
 import sortList from "../components/Sort";
 
-import { selectFilter } from "../redux/filter/selectors";
 import { setCategoryId, setCurentPage, setFilters } from "../redux/slices/filterSlice";
 import axios from "axios";
 import { SearchContext } from "../App";
@@ -21,15 +20,18 @@ const Home = () => {
   const isSearch = React.useRef(false);
   const isMounted = React.useRef(false);
 
-  const { categoryId, sort, currentPage } = useSelector(selectFilter);
+  const { categoryId, sort, currentPage } = useSelector((state) => state.filter);
 
   const { searchValue } = React.useContext(SearchContext);
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
-  const onChangeCategory = React.useCallback((idx) => {
-    dispatch(setCategoryId(idx));
-  }, []);
+  const onChangeCategory = React.useCallback(
+    (idx) => {
+      dispatch(setCategoryId(idx));
+    },
+    [dispatch],
+  );
 
   const onChangePage = (page) => {
     dispatch(setCurentPage(page));
@@ -65,7 +67,7 @@ const Home = () => {
       navigate(`?${queryString}`);
     }
     isMounted.current = true;
-  }, [categoryId, sort.sortProperty, currentPage]);
+  }, [categoryId, sort.sortProperty, currentPage, navigate]);
 
   // Если был первый рендер, то проверяем URl-параметры и сохраняем в редуксе
   React.useEffect(() => {
@@ -82,7 +84,7 @@ const Home = () => {
       );
       isSearch.current = true;
     }
-  }, []);
+  }, [dispatch]);
 
   // Если был первый рендер, то запрашиваем пиццы
   React.useEffect(() => {

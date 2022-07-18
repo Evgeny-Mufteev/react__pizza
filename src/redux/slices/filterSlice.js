@@ -23,7 +23,7 @@ const filterSlice = createSlice({
       state.currentPage = action.payload;
     },
     setFilters(state, action) {
-      if (Object.keys(action.ayload).length) {
+      if (Object.keys(action.payload).length) {
         state.currentPage = Number(action.payload.currentPage);
         state.categoryId = Number(action.payload.categoryId);
         state.sort = action.payload.sort;
