@@ -11,8 +11,8 @@ import Pagination from "../components/Pagination";
 import sortList from "../components/Sort";
 
 import { setCategoryId, setCurentPage, setFilters } from "../redux/slices/filterSlice";
-import axios from "axios";
 import { SearchContext } from "../App";
+import { fetchPizzas } from "../redux/slices/pizzaSlice";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -20,11 +20,10 @@ const Home = () => {
   const isSearch = React.useRef(false);
   const isMounted = React.useRef(false);
 
+  const { items, status } = useSelector((state) => state.pizza);
   const { categoryId, sort, currentPage } = useSelector((state) => state.filter);
 
   const { searchValue } = React.useContext(SearchContext);
-  const [items, setItems] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(true);
 
   const onChangeCategory = React.useCallback(
     (idx) => {
@@ -37,22 +36,47 @@ const Home = () => {
     dispatch(setCurentPage(page));
   };
 
-  const fetchPizzas = () => {
-    setIsLoading(true);
-
+  const getPizzas = async () => {
     const sortBy = sort.sortProperty.replace("-", "");
     const order = sort.sortProperty.includes("-") ? "asc" : "desc";
     const category = categoryId > 0 ? `category=${categoryId}` : "";
     const search = searchValue ? `search=${searchValue}` : "";
 
-    axios
-      .get(
-        `https://626d16545267c14d5677d9c2.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}&${search}`,
-      )
-      .then((res) => {
-        setItems(res.data);
-        setIsLoading(false);
-      });
+    // axios
+    //   .get(
+    //     `https://-626d16545267c14d5677d9c2.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}&${search}`,
+    //   )
+    //   .then((res) => {
+    //     setItems(res.data);
+    //     setIsLoading(false);
+    //   })
+    //   .catch((err) => {
+    //     setIsLoading(false);
+    //   });
+
+    // try {
+    //   const { data } = await axios.get(
+    //     `https://626d16545267c14d5677d9c2.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}&${search}`,
+    //   );
+    //   dispatch(setItems(data));
+    // } catch (error) {
+    //   alert("Ошибка базы данных");
+    //   console.log("ERROR", error);
+    // } finally {
+    //   setIsLoading(false);
+    // }
+
+    dispatch(
+      fetchPizzas({
+        sortBy,
+        order,
+        category,
+        search,
+        currentPage,
+      }),
+    );
+
+    window.scrollTo(0, 0);
   };
 
   // Если изменили параметры и был первый рендер
@@ -69,11 +93,15 @@ const Home = () => {
     isMounted.current = true;
   }, [categoryId, sort.sortProperty, currentPage, navigate]);
 
-  // Если был первый рендер, то проверяем URl-параметры и сохраняем в редуксе
+  // Если был первый рендер, то запрашиваем пиццы
+  React.useEffect(() => {
+    getPizzas();
+  }, []);
+
+  // Парсим параметры при первом рендере
   React.useEffect(() => {
     if (window.location.search) {
       const params = qs.parse(window.location.search.substring(1));
-
       const sort = sortList.find((obj) => obj.sortProperty === params.sortProperty);
 
       dispatch(
@@ -84,21 +112,9 @@ const Home = () => {
       );
       isSearch.current = true;
     }
-  }, [dispatch]);
-
-  // Если был первый рендер, то запрашиваем пиццы
-  React.useEffect(() => {
-    window.scrollTo(0, 0);
-
-    if (!isSearch.current) {
-      fetchPizzas();
-    }
-
-    isSearch.current = false;
-  }, [categoryId, sort.sortProperty, searchValue, currentPage]);
+  }, []);
 
   const pizzas = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />);
-
   const skeletons = [...new Array(6)].map((_, index) => <Skeleton key={index} />);
 
   return (
@@ -108,7 +124,7 @@ const Home = () => {
         <Sort value={sort} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      <div className="content__items">{isLoading ? skeletons : pizzas}</div>
+      <div className="content__items">{status === "loading" ? skeletons : pizzas}</div>
 
       <Pagination currentPage={currentPage} onChangePage={onChangePage} />
     </div>
