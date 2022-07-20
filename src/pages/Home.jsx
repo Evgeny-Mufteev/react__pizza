@@ -95,7 +95,13 @@ const Home = () => {
 
   // Если был первый рендер, то запрашиваем пиццы
   React.useEffect(() => {
-    getPizzas();
+    window.scrollTo(0, 0);
+
+    if (!isSearch.current) {
+      getPizzas();
+    }
+
+    isSearch.current = false;
   }, []);
 
   // Парсим параметры при первом рендере
@@ -124,8 +130,14 @@ const Home = () => {
         <Sort value={sort} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      <div className="content__items">{status === "loading" ? skeletons : pizzas}</div>
-
+      {status === "error" ? (
+        <div className="content__error-info">
+          <h2>Произошла ошибка 😕</h2>
+          <p>Не удалось получить пиццы. Попробуйте повторить попытку позже.</p>
+        </div>
+      ) : (
+        <div className="content__items">{status === "loading" ? skeletons : pizzas}</div>
+      )}
       <Pagination currentPage={currentPage} onChangePage={onChangePage} />
     </div>
   );
