@@ -10,20 +10,22 @@ import Skeleton from "../components/PizzaBlock/Skeleton";
 import Pagination from "../components/Pagination";
 import sortList from "../components/Sort";
 
-import { setCategoryId, setCurentPage, setFilters } from "../redux/slices/filterSlice";
-import { SearchContext } from "../App";
-import { fetchPizzas } from "../redux/slices/pizzaSlice";
+import {
+  selectFilter,
+  setCategoryId,
+  setCurentPage,
+  setFilters,
+} from "../redux/slices/filterSlice";
+
+import { fetchPizzas, selectPizzaData } from "../redux/slices/pizzaSlice";
 
 const Home = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const isSearch = React.useRef(false);
   const isMounted = React.useRef(false);
 
-  const { items, status } = useSelector((state) => state.pizza);
-  const { categoryId, sort, currentPage } = useSelector((state) => state.filter);
-
-  const { searchValue } = React.useContext(SearchContext);
+  const { items, status } = useSelector(selectPizzaData);
+  const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter);
 
   const onChangeCategory = React.useCallback(
     (idx) => {
@@ -97,11 +99,7 @@ const Home = () => {
   React.useEffect(() => {
     window.scrollTo(0, 0);
 
-    if (!isSearch.current) {
-      getPizzas();
-    }
-
-    isSearch.current = false;
+    getPizzas();
   }, []);
 
   // Парсим параметры при первом рендере
@@ -116,9 +114,8 @@ const Home = () => {
           sort,
         }),
       );
-      isSearch.current = true;
     }
-  }, []);
+  }, [dispatch]);
 
   const pizzas = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />);
   const skeletons = [...new Array(6)].map((_, index) => <Skeleton key={index} />);
