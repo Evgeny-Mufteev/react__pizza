@@ -7,11 +7,7 @@ const FullPizza: React.FC = () => {
     imageUrl: string;
     title: string;
     price: number;
-  }>({
-    imageUrl: '',
-    title: '',
-    price: 0,
-  });
+  }>( );
   const { id } = useParams();
   const navigate = useNavigate();
 
