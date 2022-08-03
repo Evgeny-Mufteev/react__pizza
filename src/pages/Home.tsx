@@ -19,7 +19,7 @@ import {
 
 import { fetchPizzas, selectPizzaData } from "../redux/slices/pizzaSlice";
 
-const Home = () => {
+const Home:React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isMounted = React.useRef(false);
@@ -27,16 +27,13 @@ const Home = () => {
   const { items, status } = useSelector(selectPizzaData);
   const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter);
 
-  const onChangeCategory = React.useCallback(
-    (idx) => {
+  const onChangeCategory = (idx:number) => {
       dispatch(setCategoryId(idx));
-    },
-    [dispatch],
-  );
+    };
 
-  const onChangePage = (page) => {
+  const onChangePage = (page:number) => {
     dispatch(setCurentPage(page));
-  };
+  }
 
   const getPizzas = async () => {
     const sortBy = sort.sortProperty.replace("-", "");
@@ -69,6 +66,7 @@ const Home = () => {
     // }
 
     dispatch(
+      // @ts-ignore
       fetchPizzas({
         sortBy,
         order,
@@ -106,6 +104,7 @@ const Home = () => {
   React.useEffect(() => {
     if (window.location.search) {
       const params = qs.parse(window.location.search.substring(1));
+      // @ts-ignore
       const sort = sortList.find((obj) => obj.sortProperty === params.sortProperty);
 
       dispatch(
@@ -117,7 +116,7 @@ const Home = () => {
     }
   }, [dispatch]);
 
-  const pizzas = items.map((obj) => (
+  const pizzas = items.map((obj:any) => (
     <Link key={obj.id} to={`/pizza/${obj.id}`}>
       <PizzaBlock {...obj} />
     </Link>
@@ -128,7 +127,7 @@ const Home = () => {
     <div className="container">
       <div className="content__top">
         <Categories value={categoryId} onChangeCategory={onChangeCategory} />
-        <Sort value={sort} />
+        <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       {status === "error" ? (
