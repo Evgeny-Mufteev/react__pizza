@@ -20,7 +20,7 @@ export const sortList: SortItem[] = [
   { name: "алфавиту(min)", sortProperty: "-title" },
 ];
 
-export const Sort: React.FC = () => {
+const Sort: React.FC = () => {
   const dispatch = useDispatch();
   const sort = useSelector(selectSort);
   const sortRef = React.useRef<HTMLDivElement>(null);
