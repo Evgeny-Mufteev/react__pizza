@@ -11,14 +11,20 @@ type Pizza = {
   types: number[];
 };
 
+export enum Status {
+  LOADING = "loading",
+  SUCCESS = "success",
+  ERROR = "error",
+}
+
 interface PizzaSliceState {
   items: Pizza[];
-  status: "loading" | "succes" | "error";
+  status: Status;
 }
 
 const initialState: PizzaSliceState = {
   items: [],
-  status: "loading", // loading | succes | error
+  status: Status.LOADING, // loading | succes | error
 };
 
 // Если в типе ВСЕ данные передаются как строка можно сократить до такой записи
@@ -46,15 +52,15 @@ const pizzaSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(fetchPizzas.pending, (state, action) => {
-      state.status = "loading";
+      state.status = Status.LOADING;
       state.items = [];
     });
     builder.addCase(fetchPizzas.fulfilled, (state, action) => {
       state.items = action.payload;
-      state.status = "succes";
+      state.status = Status.SUCCESS;
     });
     builder.addCase(fetchPizzas.rejected, (state, action) => {
-      state.status = "error";
+      state.status = Status.ERROR;
       state.items = [];
     });
   },
