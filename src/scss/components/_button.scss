@@ -2,7 +2,7 @@
 
 .button {
   display: inline-block;
-  background-color: $orange;
+  background-color: #212121;
   border-radius: 30px;
   padding: 10px 20px;
   min-width: 100px;
@@ -25,11 +25,11 @@
   }
 
   &:hover {
-    background-color: darken($orange, 8%);
+    background-color: #363636;
   }
 
   &:active {
-    background-color: darken($orange, 12%);
+    background-color: #3f3f3f;
     transform: translateY(1px);
   }
 
@@ -55,20 +55,20 @@
 
   &--outline {
     background-color: #fff;
-    border-color: $orange;
+    border-color: #212121;
     &,
     span {
-      color: $orange;
+      color: #212121;
     }
 
     svg {
       path {
-        fill: $orange;
+        fill: #212121;
       }
     }
 
     &:hover {
-      background-color: $orange;
+      background-color: #000;
 
       &,
       span {
@@ -108,14 +108,14 @@
     &:hover {
       i {
         background-color: #fff;
-        color: $orange;
+        color: #000;
       }
     }
 
     i {
       display: inline-block;
       border-radius: 30px;
-      background-color: $orange;
+      background-color: #212121;
       color: #fff;
       font-weight: 600;
       width: 22px;

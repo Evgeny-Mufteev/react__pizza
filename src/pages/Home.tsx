@@ -8,15 +8,11 @@ import PizzaBlock from "../components/PizzaBlock";
 import Skeleton from "../components/PizzaBlock/Skeleton";
 import Pagination from "../components/Pagination";
 
-
-
-
 import { useAppDispatch } from "../redux/store";
 import { selectFilter } from "../redux/filter/selectors";
 import { selectPizzaData } from "../redux/pizza/selectors";
 import { setCategoryId, setCurentPage } from "../redux/filter/slice";
 import { fetchPizzas } from "../redux/pizza/asyncActions";
-import { match } from "assert";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();

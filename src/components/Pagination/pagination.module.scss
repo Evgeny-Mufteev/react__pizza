@@ -1,4 +1,10 @@
+ul  {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .root {
+  
   li {
     display: inline-flex;
 
@@ -9,13 +15,13 @@
       width: 45px;
       height: 45px;
       padding: 10px;
-      border: 1px solid #ff5722;
+      border: 1px solid #212121;
       border-radius: 30px;
       cursor: pointer;
-      color: #ff5722;
+      color: #212121;
 
       &:hover {
-        background-color: #ff5722;
+        background-color: #000;
         color: #fff;
         user-select: none;
       }
@@ -25,9 +31,10 @@
   :global {
     .selected {
         a {
-          background-color: #ff5722;
+          background-color: #212121;
           color: #fff;
         }
     }
   }
+
 }
